@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from openai import AzureOpenAI
-from prompts import script_writer, google_image_search
+from prompts import script_writer, google_image_search, caption, title
 
 load_dotenv()
 
@@ -9,24 +9,24 @@ client = AzureOpenAI(
     api_key=os.getenv("AZURE_OPENAI_API_KEY"),
     azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
     azure_deployment=os.getenv("AZURE_OPENAI_DEPLOYMENT"),
-    api_version=os.getenv("AZURE_API_VERSION")
+    api_version=os.getenv("AZURE_API_VERSION"),
 )
 
 
 def get_completion(
-        prompt,
-        system_role,
-        temperature=0.7,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0,
-        model=os.getenv("AZURE_OPENAI_GPT_DEPLOYMENT"),
+    prompt,
+    system_role,
+    temperature=0.7,
+    top_p=1,
+    frequency_penalty=0,
+    presence_penalty=0,
+    model=os.getenv("AZURE_OPENAI_GPT_DEPLOYMENT"),
 ):
     response = client.chat.completions.create(
         model=model,
         messages=[
             {"role": "system", "content": system_role},
-            {"role": "user", "content": prompt}
+            {"role": "user", "content": prompt},
         ],
         temperature=temperature,
         top_p=top_p,
@@ -43,23 +43,25 @@ def get_image(prompt):
         prompt=prompt,
         size="1024x1024",
         quality="hd",
-        n=1
+        n=1,
     )
     return response.data[0].url
 
 
-def get_speech(text, save_path, voice="echo", speed=1., response_format="mp3"):
-    with client.audio.speech.with_streaming_response.create(input=text,
-                                          model=os.getenv("AZURE_OPENAI_TTS_DEPLOYMENT"),
-                                          voice=voice,
-                                          speed=speed,
-                                          response_format=response_format) as response:
+def get_speech(text, save_path, voice="echo", speed=1.0, response_format="mp3"):
+    with client.audio.speech.with_streaming_response.create(
+        input=text,
+        model=os.getenv("AZURE_OPENAI_TTS_DEPLOYMENT"),
+        voice=voice,
+        speed=speed,
+        response_format=response_format,
+    ) as response:
         response.stream_to_file(save_path)
 
 
 def get_video_script(content_data):
     return get_completion(
-        prompt=script_writer.prompt+content_data,
+        prompt=script_writer.prompt + content_data,
         system_role=script_writer.system_role,
         temperature=script_writer.temperature,
         top_p=script_writer.top_p,
@@ -69,9 +71,33 @@ def get_video_script(content_data):
     )
 
 
+def get_caption(script):
+    return get_completion(
+        prompt=caption.prompt + script,
+        system_role=caption.system_role,
+        temperature=caption.temperature,
+        top_p=caption.top_p,
+        frequency_penalty=caption.frequency_penalty,
+        presence_penalty=caption.presence_penalty,
+        model=caption.model,
+    )
+
+
+def get_title(script):
+    return get_completion(
+        prompt=title.prompt + script,
+        system_role=title.system_role,
+        temperature=title.temperature,
+        top_p=title.top_p,
+        frequency_penalty=title.frequency_penalty,
+        presence_penalty=title.presence_penalty,
+        model=title.model,
+    )
+
+
 def get_google_image_search_prompts(script):
     return get_completion(
-        prompt=google_image_search.prompt+script,
+        prompt=google_image_search.prompt + script,
         system_role=google_image_search.system_role,
         temperature=google_image_search.temperature,
         top_p=google_image_search.top_p,
@@ -79,6 +105,7 @@ def get_google_image_search_prompts(script):
         presence_penalty=google_image_search.presence_penalty,
         model=google_image_search.model,
     )
+
 
 if __name__ == "__main__":
     # print(get_completion("What is the meaning of life?"))
@@ -191,7 +218,6 @@ You Might Also Like …
 
 Carlton Reid is an award-winning freelancer who writes about cycling, transport and adventure travel for numerous titles including Forbes, The Guardian, and Mail Online. He is the author of Roads Were Not Built for Cars and Bike Boom."""
 
-
     reddit_comments = """ **reddit comments:** comment1: 
 
 https://www.amnesty.org/en/documents/ACT30/8544/2024/en/
@@ -210,4 +236,8 @@ comment4: Nobody gave a shit about Cobalt when it was being consumed in the proc
     # search_prompts = get_google_image_search_prompts(video_script)
     # print(search_prompts)
 
-    print(get_image("Generate photorealistic image of an activist organization advocating for improved human rights in the production of electric vehicle batteries. Depict a diverse group of people holding banners with slogans like 'Fair Labor' and 'Ethical Batteries,' gathered in front of a modern factory. Include subtle environmental elements such as greenery or wind turbines to highlight sustainability. Use realistic lighting, natural textures, and an upright orientation to capture a lifelike and impactful scene."))
+    print(
+        get_image(
+            "Generate photorealistic image of an activist organization advocating for improved human rights in the production of electric vehicle batteries. Depict a diverse group of people holding banners with slogans like 'Fair Labor' and 'Ethical Batteries,' gathered in front of a modern factory. Include subtle environmental elements such as greenery or wind turbines to highlight sustainability. Use realistic lighting, natural textures, and an upright orientation to capture a lifelike and impactful scene."
+        )
+    )
