@@ -7,16 +7,16 @@ from typing import List
 # or you can set environment variables: GCS_DEVELOPER_KEY, GCS_CX
 dotenv.load_dotenv()
 
-gis = GoogleImagesSearch(os.getenv('GCS_DEVELOPER_KEY'), os.getenv('GCS_CX'))
+gis = GoogleImagesSearch(os.getenv("GCS_DEVELOPER_KEY"), os.getenv("GCS_CX"))
 
 
 def search_prompts_and_save_imgs(prompts: List[str], save_location_dir: str):
     result_paths = []
     for prompt in prompts:
         _search_params = {
-            'q': prompt+" in nature",
-            'num': 1,
-            'imgType': 'photo',
+            "q": prompt,
+            "num": 1,
+            "imgType": "photo",
         }
         gis.search(search_params=_search_params)
         for image in gis.results():
@@ -26,7 +26,7 @@ def search_prompts_and_save_imgs(prompts: List[str], save_location_dir: str):
     return result_paths
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     prompts = [
         "electric vehicle",
         "solar energy",

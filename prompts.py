@@ -69,7 +69,7 @@ title = PromptConfig(
 
 
 google_image_search = PromptConfig(
-    prompt="Create a google image search prompt for each session of the following script: ",
+    prompt="Give five recommendations for google image search prompts for the following video transcript:",
     system_role="You are a video cutter for tiktok short videos for a website that serves as a central hub for anyone interested in electric mobility and renewable energy, providing valuable insights and resources to support informed decisions."
     "You recieve a script for a video and you need to find images on google that best represent the concepts in the script. The goal is to find images that are engaging, informative, and entertaining. The images should be visually appealing and should help the viewer understand the content of the video."
     "You create a list of five search prompts for google images separated by a newline. Keep in mind that we are a newsletter for electric vehicles and videos should be produced with realistic images, no product images.",

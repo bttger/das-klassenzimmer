@@ -160,6 +160,12 @@ def main():
     ).split("\n")
     print("Google Image Search Prompts:", google_image_search_prompts)
 
+    # Remove all punctuation, special characters, and quotation marks from the prompts
+    google_image_search_prompts = [
+        re.sub(r"[^a-zA-Z\s]", "", prompt) for prompt in google_image_search_prompts
+    ]
+    print("Cleaned Google Image Search Prompts:", google_image_search_prompts)
+
     search_prompts_and_save_imgs(google_image_search_prompts, image_save_path)
 
 
