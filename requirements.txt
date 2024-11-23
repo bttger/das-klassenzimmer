@@ -1,3 +1,7 @@
 openai
 python-dotenv
 Google-Images-Search
+praw
+newspaper4k
+lxml_html_clean
+typing-extensions
