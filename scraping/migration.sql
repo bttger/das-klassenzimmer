@@ -1,27 +1,19 @@
 -- Enable foreign key support (important for SQLite)
 PRAGMA foreign_keys = ON;
 
--- Create table for news articles
-CREATE TABLE IF NOT EXISTS NewsArticle (
-    id INTEGER PRIMARY KEY,
-    date DATETIME,
-    title TEXT,
-    author TEXT,
-    content TEXT,
-    sources TEXT,
-    reddit_post_id INTEGER UNIQUE, 
-    FOREIGN KEY (reddit_post_id) REFERENCES RedditPost(id)
-);
-
 -- Create table for Reddit posts
 CREATE TABLE IF NOT EXISTS RedditPost (
-    id INTEGER PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     title TEXT,
     author TEXT,
-    date DATETIME,
+    date TEXT,
+    article_url TEXT,
+    article_title TEXT,
+    article_author TEXT,
+    article_publish_date TEXT,
+    article_text TEXT,
     score INTEGER,
     num_comments INTEGER,
-    text TEXT,
     is_video_created INTEGER DEFAULT 0  -- 0 for False, 1 for True
 );
 
@@ -36,13 +28,11 @@ CREATE TABLE IF NOT EXISTS GeneratedVideoScript (
 
 -- Create table for comments with hierarchical replies
 CREATE TABLE IF NOT EXISTS RedditComment (
-    id INTEGER PRIMARY KEY,
-    reddit_post_id INTEGER,
-    parent_comment_id INTEGER,
+    id TEXT PRIMARY KEY,
+    reddit_post_id TEXT,
     author TEXT,
-    date DATETIME,
+    date TEXT,
     score INTEGER,
     content TEXT,
-    FOREIGN KEY (reddit_post_id) REFERENCES RedditPost(id),
-    FOREIGN KEY (parent_comment_id) REFERENCES RedditComment(id)
+    FOREIGN KEY (reddit_post_id) REFERENCES RedditPost(id)
 );
