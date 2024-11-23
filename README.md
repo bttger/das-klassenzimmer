@@ -28,3 +28,10 @@
 
 - [ ] Write script with query to read data from DB
 - [ ] Write a system prompt for image generation
+
+
+## migrations
+ ```
+ sqlite3 news.db < migrations.sql
+ ```
+

@@ -14,9 +14,8 @@ CREATE TABLE IF NOT EXISTS NewsArticle (
 -- Create table for Reddit posts
 CREATE TABLE IF NOT EXISTS RedditPost (
     id INTEGER PRIMARY KEY,
-    posting_date DATETIME,
-    upvotes INTEGER,
-    downvotes INTEGER,
+    date DATETIME,
+    votes INTEGER,
     num_comments INTEGER,
     text TEXT,
     news_article_id INTEGER,
@@ -25,15 +24,16 @@ CREATE TABLE IF NOT EXISTS RedditPost (
 );
 
 -- Create table for scripts associated with Reddit posts
-CREATE TABLE IF NOT EXISTS Script (
+CREATE TABLE IF NOT EXISTS GeneratedVideoScript (
     id INTEGER PRIMARY KEY,
     reddit_post_id INTEGER UNIQUE,
+    title TEXT,
     script TEXT,
     FOREIGN KEY (reddit_post_id) REFERENCES RedditPost(id)
 );
 
 -- Create table for comments with hierarchical replies
-CREATE TABLE IF NOT EXISTS Comment (
+CREATE TABLE IF NOT EXISTS RedditComment (
     id INTEGER PRIMARY KEY,
     reddit_post_id INTEGER,
     parent_comment_id INTEGER,  -- New field for parent comment ID
@@ -44,5 +44,5 @@ CREATE TABLE IF NOT EXISTS Comment (
     content TEXT,
     deleted INTEGER DEFAULT 0,  -- 0 for False, 1 for True
     FOREIGN KEY (reddit_post_id) REFERENCES RedditPost(id),
-    FOREIGN KEY (parent_comment_id) REFERENCES Comment(id)
+    FOREIGN KEY (parent_comment_id) REFERENCES RedditComment(id)
 );
