@@ -81,7 +81,11 @@ for submission in subreddit.hot(limit=30):
     )
 
     # Insert comments
-    top_level_comments = list(submission.comments)
+    top_level_comments = [
+        comment
+        for comment in submission.comments
+        if isinstance(comment, praw.models.Comment)
+    ]
     top_level_comments.sort(key=lambda x: x.score, reverse=True)
 
     for comment in top_level_comments:
