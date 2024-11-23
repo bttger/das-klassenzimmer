@@ -111,9 +111,10 @@ def main():
 
     # Create a prompt from the article text and all the comments
     prompt = f"{reddit_post.article_text}\n\n"
+    backslash = "\\"
     prompt += "\n".join(
         [
-            f"Comment {num+1}: {comment.content.replace('\n', ' ')}"
+            f"Comment {num+1}: {comment.content.replace(f'{backslash}n', ' ')}"
             for num, comment in enumerate(reddit_comments)
         ]
     )
