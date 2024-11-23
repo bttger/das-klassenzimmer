@@ -2,12 +2,24 @@
 
 ## Tasks
 
-- [ ] Find appropriate subreddits (which languages? english, german, french, spanish?)
-- [ ] Write playwright script to scrape the linked articles and the comments
+## Scraping
+- [x] Find appropriate subreddits (which languages? english, german, french, spanish?)
+- [ ] Write playwright script to scrape the linked articles and the comments periodically
   - [ ] Preprocess the HTML body to plain text and data (text, date, title, comments+usernames+datetime)
+- [ ] Write (or add to) script Azure OpenAI wrapper and test the connection to the hackatum instance to create embeddings
 - [ ] Set up RAG DB for a vector index
-- [ ] Write personas for the classroom participants
-- [ ] Write a system prompt for the header generation
-- [ ] Write a system prompt for the discussion/article
+  - [ ] Use embeddings to create a vector index
+  - [ ] Track reddit post id, article id, comment id in database
+  - [ ] Trigger video generation once virality threshold is reached (e.g. 1000 upvotes or 100 comments)
+
+## Video Generation
+- [ ] Write a system prompt for script generation
+  - [ ] hook for the viewer, exaggeration, reformulation, etc.
+  - [ ] give context for the topic (article plus comments)
+  - [ ] explain the problem / the analysis using the article and reddit comments
+- [ ] TTS for the script
+- [ ] Scrape google images for fitting images to original article
+- [ ] Generate video with script, images, and TTS using pymovie
+
 - [ ] Write script with query to read data from DB
-- [ ] Write (or add to) script Azure OpenAI wrapper and test the connection to the hackatum instance
+- [ ] Write a system prompt for image generation
