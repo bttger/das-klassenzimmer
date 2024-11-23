@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import sqlite3
 from openai_wrapper import get_video_script
+import re
 
 
 def connect_to_db(db_name):
@@ -109,6 +110,13 @@ def main():
     # Generate a video script from the prompt
     video_script = get_video_script(prompt)
     print("Video Script:", video_script)
+
+    # Clean the video script by replacing instructions like **[Move the camera...]** and Descriptions like **Body**.
+    # We use a regex pattern to match the instructions and descriptions.
+    pattern = r"\*\*\[.*?\]\*\*|\*\*.*?\*\*"
+    cleaned_video_script = re.sub(pattern, "", video_script)
+
+    print("Video Script cleaned:", cleaned_video_script)
 
     conn.close()
 
