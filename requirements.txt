@@ -5,3 +5,4 @@ praw
 newspaper4k
 lxml_html_clean
 typing-extensions
+moviepy

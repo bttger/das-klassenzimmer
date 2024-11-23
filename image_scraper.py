@@ -23,6 +23,11 @@ def search_prompts_and_save_imgs(prompts: List[str], save_location_dir: str):
             image.download(save_location_dir)
             result_paths.append(image.path)
 
+    # rename the downloaded images by adding number for the correct order
+    for i, path in enumerate(result_paths):
+        os.rename(
+            path, os.path.join(save_location_dir, f"{i:04d}-" + os.path.basename(path))
+        )
     return result_paths
 
 

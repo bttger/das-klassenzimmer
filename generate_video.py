@@ -5,10 +5,12 @@ from openai_wrapper import (
     get_caption,
     get_title,
     get_google_image_search_prompts,
+    get_speech,
 )
 import re
 import os
 from image_scraper import search_prompts_and_save_imgs
+import moviepy as mp
 
 
 def connect_to_db(db_name):
@@ -158,7 +160,6 @@ def main():
     google_image_search_prompts = get_google_image_search_prompts(
         cleaned_video_script
     ).split("\n")
-    print("Google Image Search Prompts:", google_image_search_prompts)
 
     # Remove all punctuation, special characters, and quotation marks from the prompts
     google_image_search_prompts = [
@@ -166,7 +167,21 @@ def main():
     ]
     print("Cleaned Google Image Search Prompts:", google_image_search_prompts)
 
-    search_prompts_and_save_imgs(google_image_search_prompts, image_save_path)
+    image_uris = search_prompts_and_save_imgs(
+        google_image_search_prompts, image_save_path
+    )
+
+    # generate TTS for the video script
+    audio_save_path = os.path.join(save_path, "audio.mp3")
+    get_speech(video_script, audio_save_path)
+
+    # Extract the audio length of the audio file
+    audio_length = 0
+    if os.path.exists(audio_save_path):
+        audio = mp.AudioFileClip(audio_save_path)
+        audio_length = audio.duration
+
+    print("Audio Length:", audio_length)
 
 
 if __name__ == "__main__":

@@ -42,7 +42,7 @@ script_writer = PromptConfig(
 )
 
 caption = PromptConfig(
-    prompt="Write a caption for a tiktok video based on the following script: ",
+    prompt="Write a caption for a tiktok video based on the following video transcript: ",
     system_role="You are a social media manager for a website that serves as a central hub for anyone interested in electric mobility and renewable energy, providing valuable insights and resources to support informed decisions."
     "You are responsible for creating captions for tiktok videos that are engaging, informative, and entertaining. The captions should be written in a conversational tone and should be easy to understand for a general audience."
     "The goal is to create a caption that will make the viewer want to watch the video and learn more about the topic. The caption should be around 100 characters long and should include a call to action at the end."
@@ -55,7 +55,7 @@ caption = PromptConfig(
 )
 
 title = PromptConfig(
-    prompt="Write a title for a tiktok video based on the following script: ",
+    prompt="Write a title for a tiktok video based on the following video transcript: ",
     system_role="You are a social media manager for a website that serves as a central hub for anyone interested in electric mobility and renewable energy, providing valuable insights and resources to support informed decisions."
     "You are responsible for creating titles for tiktok videos that are engaging, informative, and entertaining. The titles should be written in a conversational tone and should be easy to understand for a general audience."
     "The goal is to create a title that will make the viewer want to watch the video and learn more about the topic. The title should be around 30 characters long and should include a call to action at the end."
