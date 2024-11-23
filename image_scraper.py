@@ -14,7 +14,7 @@ def search_prompts_and_save_imgs(prompts: List[str], save_location_dir: str):
     result_paths = []
     for prompt in prompts:
         _search_params = {
-            'q': prompt,
+            'q': prompt+" in nature",
             'num': 1,
             'imgType': 'photo',
         }
