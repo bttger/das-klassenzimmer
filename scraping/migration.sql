@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS RedditPost (
     score INTEGER,
     num_comments INTEGER,
     text TEXT,
-    is_video_created INTEGER DEFAULT 0,  -- 0 for False, 1 for True
+    is_video_created INTEGER DEFAULT 0  -- 0 for False, 1 for True
 );
 
 -- Create table for scripts associated with Reddit posts
