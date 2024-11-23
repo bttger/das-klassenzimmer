@@ -1,11 +1,35 @@
 import praw
+import sqlite3
 
-# Reddit API credentials
+# Load Reddit API credentials
 reddit = praw.Reddit(
     client_id="PfXfiktXz50qjyFlOrBo_w",
     client_secret="T8BZf98JrIvR4IPiQEVbHzVZhRNS4g",
     user_agent="ElectricVehiclesReader/0.1 (by Usual_Diamond_666)",
 )
+
+
+# Database setup
+def initialize_db(db_file, migration_file):
+    """Initialize the SQLite database using the migration file."""
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+
+    with open(migration_file, "r") as f:
+        migration = f.read()
+
+    cursor.executescript(migration)
+    conn.commit()
+    return conn
+
+
+# Specify database and migration files
+DB_FILE = "reddit_data.db"
+MIGRATION_FILE = "migration.sql"
+
+# Initialize the database
+conn = initialize_db(DB_FILE, MIGRATION_FILE)
+cursor = conn.cursor()
 
 # Specify the subreddit
 subreddit = reddit.subreddit("electricvehicles")
@@ -15,25 +39,51 @@ for submission in subreddit.hot(limit=5):
     if submission.is_self:
         continue
 
-    print(f"\n\nSubmission Title: {submission.title}")
-    print(f"ID: {submission.name}")
-    print(f"URL: {submission.url}")
-    print(f"Score: {submission.score}")
-    print(f"Number of Comments: {submission.num_comments}")
-    print(f"Author: {submission.author}")
-    print(f"Is self: {submission.is_self}")
-    print(f"Selftext: {submission.selftext}")
+    # Insert the Reddit post into the database
+    cursor.execute(
+        """
+        INSERT OR REPLACE INTO RedditPost (id, title, author, date, score, num_comments, text, is_video_created)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            submission.name,  # id
+            submission.title,  # title
+            submission.author,  # author
+            submission.created_utc,  # date
+            submission.score,  # score
+            submission.num_comments,  # num_comments
+            submission.selftext,  # text
+            0,  # is_video_created
+        ),
+    )
+    reddit_post_id = cursor.lastrowid
 
-    # Load comments
-    print("\n--- Comments ---")
+    # Insert comments
     top_level_comments = list(submission.comments)
     top_level_comments.sort(key=lambda x: x.score, reverse=True)
+
     for comment in top_level_comments:
         if comment.score < 3:
             break
-        print(f"\nID: {comment.id}")
-        print(f"Parent ID: {comment.parent_id}")
-        print(f"Comment: {comment.body}")
-        print(f"Author: {comment.author}")
-        print(f"Score: {comment.score}")
-        print(f"Replies: {comment.replies}")
+
+        cursor.execute(
+            """
+            INSERT OR REPLACE INTO RedditComment (
+                id, reddit_post_id, author, date, score, content
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            
+            """,
+            (
+                comment.id,  # id
+                reddit_post_id,  # reddit_post_id
+                comment.author,  # author
+                comment.created_utc,  # date
+                comment.score,  # score
+                comment.body,  # content
+            ),
+        )
+
+# Commit the changes and close the connection
+conn.commit()
+conn.close()
