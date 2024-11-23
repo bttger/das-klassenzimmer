@@ -40,3 +40,15 @@ script_writer = PromptConfig(
     presence_penalty=0,
     model="gpt-4o",
 )
+
+google_image_search = PromptConfig(
+    prompt="Create a google image search prompt for each session of the following script: ",
+    system_role="You are a video cutter for tiktok short videos for a website that serves as a central hub for anyone interested in electric mobility and renewable energy, providing valuable insights and resources to support informed decisions."
+                "You recieve a script for a video and you need to find images on google that best represent the concepts in the script. The goal is to find images that are engaging, informative, and entertaining. The images should be visually appealing and should help the viewer understand the content of the video."
+                "You create a list of search prompts for google images separated by a newline.",
+    temperature=0.1,
+    top_p=1,
+    frequency_penalty=0,
+    presence_penalty=0,
+    model="gpt-4o",
+)

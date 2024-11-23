@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from openai import AzureOpenAI
-from prompts import script_writer
+from prompts import script_writer, google_image_search
 
 load_dotenv()
 
@@ -68,6 +68,17 @@ def get_video_script(content_data):
         model=script_writer.model,
     )
 
+
+def get_google_image_search_prompts(script):
+    return get_completion(
+        prompt=google_image_search.prompt+script,
+        system_role=google_image_search.system_role,
+        temperature=google_image_search.temperature,
+        top_p=google_image_search.top_p,
+        frequency_penalty=google_image_search.frequency_penalty,
+        presence_penalty=google_image_search.presence_penalty,
+        model=google_image_search.model,
+    )
 
 if __name__ == "__main__":
     # print(get_completion("What is the meaning of life?"))
@@ -195,4 +206,6 @@ comment4: Nobody gave a shit about Cobalt when it was being consumed in the proc
 
     video_script = get_video_script(article_content+reddit_comments)
     print(video_script)
-    get_speech(video_script, "test.mp3")
+    # get_speech(video_script, "test.mp3")
+    search_prompts = get_google_image_search_prompts(video_script)
+    print(search_prompts)
