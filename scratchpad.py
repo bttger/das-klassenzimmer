@@ -26,6 +26,8 @@ def slide_transition(clip1, clip2, duration):
     return CompositeVideoClip([clip1_slide, clip2_slide], size=clip1.size)
 
 
+
+
 # resize images to 1080x1920, without changing the aspect ratio
 for image_path in image_files:
     original_img = Image.open(image_path).convert("RGB")
@@ -55,6 +57,14 @@ image_duration = audio_length / len(image_files)
 transition_duration = 0.3
 zoom_factor = 1.1
 
+watermark = (
+    mp.ImageClip("efahrer-icon.png")
+    .with_opacity(0.5)  # Load the watermark image
+    .with_duration(audio_length)      # Match the watermark's duration with the video's duration
+    .resized(height=200, width=200)                 # Resize the watermark; adjust as needed
+    .with_position(("right", "bottom"))      # Position it at the bottom-right corner
+)
+
 clips = []
 for image_path in image_files:
     img_clip = mp.ImageClip(image_path, duration=image_duration)
@@ -73,6 +83,7 @@ final_clips.append(clips[-1])
 
 # Concatenate all clips
 video = mp.concatenate_videoclips(final_clips, method="compose")
+video = mp.CompositeVideoClip([video, watermark])
 
 #video = video.with_audio(audio)
 video.write_videofile(
