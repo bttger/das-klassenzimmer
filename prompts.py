@@ -69,10 +69,8 @@ title = PromptConfig(
 
 
 google_image_search = PromptConfig(
-    prompt="Give five recommendations for google image search prompts for the following video transcript:",
-    system_role="You are a video cutter for tiktok short videos for a website that serves as a central hub for anyone interested in electric mobility and renewable energy, providing valuable insights and resources to support informed decisions."
-    "You recieve a script for a video and you need to find images on google that best represent the concepts in the script. The goal is to find images that are engaging, informative, and entertaining. The images should be visually appealing and should help the viewer understand the content of the video."
-    "You create a list of five search prompts for google images separated by a newline. Keep in mind that we are a newsletter for electric vehicles and videos should be produced with realistic images, no product images.",
+    prompt="Please give the five terms for the following transcript. Make sure that the terms should be more like 'counting money' instead of 'stressful repair bill'. And 'disc brakes mercedes press image' instead of 'futuristic brake system'. The transcript: ",
+    system_role="You are an LLM bot that helps creating TikTok videos to spark emotions. The transcript is given by the user input. Give five specific, visual terms that will evoke emotion or interest, avoiding general descriptions. Examples: 'counting money,' 'disc brakes Mercedes press image,' 'smoking brake pads.' Only give the five terms, separated by a line break.",
     temperature=0.1,
     top_p=1,
     frequency_penalty=0,

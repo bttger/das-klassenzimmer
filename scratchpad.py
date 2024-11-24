@@ -63,7 +63,7 @@ def assemble_clip(content_path):
 
     audio_length = 0
     audio = mp.AudioFileClip(audio_save_path)
-    audio_length = audio.duration / 5
+    audio_length = audio.duration
 
     image_duration = audio_length / len(image_files)
     transition_duration = 0.3
@@ -107,5 +107,9 @@ def assemble_clip(content_path):
     )
 
 
-# Example usage
-assemble_clip('generated_content/Is Mercedes\' Brake Tech a Game-Changer? Discover More! 🚗✨ (Link in Bio)')
+if __name__ == "__main__":
+
+    # Example usage
+    assemble_clip(
+        "generated_content/Is Mercedes' Brake Tech a Game-Changer? Discover More! 🚗✨ (Link in Bio)"
+    )

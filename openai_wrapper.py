@@ -230,14 +230,14 @@ comment3: t's interesting....why are reports like these simply focusing on human
 The entire global economy is based on human/animal rights exploitation and abuse. Everyone turns a blind eye to all of them except for the ones that suit their virtue signaling narratives. 
 comment4: Nobody gave a shit about Cobalt when it was being consumed in the process of removing sulfur from oil in the refining process. Now that it's in EV batteries and is recyclable, suddenly it's the human rights issue of our time. What a fucking joke. """
 
-    # video_script = get_video_script(article_content+reddit_comments)
+    video_script = get_video_script(article_content + reddit_comments)
     # print(video_script)
     # # get_speech(video_script, "test.mp3")
-    # search_prompts = get_google_image_search_prompts(video_script)
-    # print(search_prompts)
+    search_prompts = get_google_image_search_prompts(video_script)
+    print(search_prompts)
 
-    print(
-        get_image(
-            "Generate photorealistic image of an activist organization advocating for improved human rights in the production of electric vehicle batteries. Depict a diverse group of people holding banners with slogans like 'Fair Labor' and 'Ethical Batteries,' gathered in front of a modern factory. Include subtle environmental elements such as greenery or wind turbines to highlight sustainability. Use realistic lighting, natural textures, and an upright orientation to capture a lifelike and impactful scene."
-        )
-    )
+    # print(
+    #     get_image(
+    #         "Generate photorealistic image of an activist organization advocating for improved human rights in the production of electric vehicle batteries. Depict a diverse group of people holding banners with slogans like 'Fair Labor' and 'Ethical Batteries,' gathered in front of a modern factory. Include subtle environmental elements such as greenery or wind turbines to highlight sustainability. Use realistic lighting, natural textures, and an upright orientation to capture a lifelike and impactful scene."
+    #     )
+    # )
