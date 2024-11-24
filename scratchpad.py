@@ -13,6 +13,9 @@ image_files = sorted(
     key=lambda x: int(os.path.basename(x).split("-")[0].split("/")[-1]),
 )
 
+def slow_zoom_in(clip, duration, zoom_factor):
+    return clip.with_effects([vfx.Resize(lambda t: 1 + (zoom_factor - 1) * (t / duration))]).with_duration(duration)
+
 # Create slide transition effect
 def slide_transition(clip1, clip2, duration):
     # Slide the first clip out to the left
@@ -50,11 +53,13 @@ audio_length = audio.duration / 5
 
 image_duration = audio_length / len(image_files)
 transition_duration = 0.3
+zoom_factor = 1.1
 
 clips = []
 for image_path in image_files:
     img_clip = mp.ImageClip(image_path, duration=image_duration)
-    clips.append(img_clip)
+    zoomed_clip = slow_zoom_in(img_clip, image_duration, zoom_factor)
+    clips.append(zoomed_clip)
 
 # Add transitions between clips
 final_clips = []
