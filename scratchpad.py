@@ -65,17 +65,19 @@ def assemble_clip(content_path):
     audio = mp.AudioFileClip(audio_save_path)
     audio_length = audio.duration / 5
 
-image_duration = audio_length / len(image_files)
-transition_duration = 0.3
-zoom_factor = 1.1
+    image_duration = audio_length / len(image_files)
+    transition_duration = 0.3
+    zoom_factor = 1.1
 
-watermark = (
-    mp.ImageClip("efahrer-icon.png")
-    .with_opacity(0.5)  # Load the watermark image
-    .with_duration(audio_length)      # Match the watermark's duration with the video's duration
-    .resized(height=200, width=200)                 # Resize the watermark; adjust as needed
-    .with_position(("right", "bottom"))      # Position it at the bottom-right corner
-)
+    watermark = (
+        mp.ImageClip("efahrer-icon.png")
+        .with_opacity(0.5)  # Load the watermark image
+        .with_duration(
+            audio_length
+        )  # Match the watermark's duration with the video's duration
+        .resized(height=200, width=200)  # Resize the watermark; adjust as needed
+        .with_position(("right", "bottom"))  # Position it at the bottom-right corner
+    )
 
     clips = []
     for image_path in image_files:
@@ -93,9 +95,9 @@ watermark = (
     # Append the last clip (no transition after it)
     final_clips.append(clips[-1])
 
-# Concatenate all clips
-video = mp.concatenate_videoclips(final_clips, method="compose")
-video = mp.CompositeVideoClip([video, watermark])
+    # Concatenate all clips
+    video = mp.concatenate_videoclips(final_clips, method="compose")
+    video = mp.CompositeVideoClip([video, watermark])
 
     generator = lambda txt: TextClip(
         txt,
