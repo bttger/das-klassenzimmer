@@ -1,4 +1,5 @@
 import math
+from typing import List
 
 
 def split_transcript(transcript, max_length=60):
@@ -31,15 +32,18 @@ def format_time(seconds):
     return formatted_time
 
 
-def write_subtitle_file(directory, segments):
+def write_subtitle_file(directory, segments: List[str], audio_duration_secs: float):
     subtitle_file = "subtitles.srt"
     text = ""
+    segment_duration = audio_duration_secs / len(segments)
     for index, segment in enumerate(segments):
-        segment_start = format_time(segment.start)
-        segment_end = format_time(segment.end)
-        text += f"{str(index+1)} \n"
-        text += f"{segment_start} --> {segment_end} \n"
-        text += f"{segment.text} \n"
+        segment_start_time = index * segment_duration
+        segment_end_time = (index + 1) * segment_duration
+        segment_start = format_time(segment_start_time)
+        segment_end = format_time(segment_end_time)
+        text += f"{str(index+1)}\n"
+        text += f"{segment_start} --> {segment_end}\n"
+        text += f"{segment}\n"
         text += "\n"
 
     path = f"{directory}/{subtitle_file}"
