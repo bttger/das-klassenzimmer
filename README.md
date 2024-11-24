@@ -62,5 +62,5 @@ ffmpeg -i output_video.mp4 -vf subtitles=subtitles.srt output_video_with_subtitl
 ffmpeg -i output_video_with_subtitles.mp4 -filter_complex "[0:v]setpts=0.8*PTS[v];[0:a]atempo=1.25[a]" -map "[v]" -map "[a]" output_video_sped_up.mp4
 
 # merge video and default background music with reduced volume and the -shortest option
-ffmpeg -i output_video_sped_up.mp4 -i bg_music.mp3 -filter_complex "[0:a]volume=1[a1];[1:a]volume=0.2[a2];[a1][a2]amix=inputs=2[aout]" -map 0:v -map "[aout]" -c:v copy -c:a aac -ac 2 -shortest final_video.mp4
+ffmpeg -i output_video_sped_up.mp4 -i bg_music.mp3 -filter_complex "[0:a]volume=1[a1];[1:a]volume=0.05[a2];[a1][a2]amix=inputs=2[aout]" -map 0:v -map "[aout]" -c:v copy -c:a aac -ac 2 -shortest final_video.mp4
 ```
