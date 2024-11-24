@@ -12,6 +12,7 @@ import os
 from image_scraper import search_prompts_and_save_imgs
 import moviepy as mp
 from scratchpad import assemble_clip
+from subtitle_chunking import split_transcript, write_subtitle_file
 
 
 def connect_to_db(db_name):
@@ -190,6 +191,10 @@ def main():
 
     # assemble clip
     assemble_clip(save_path)
+
+    # generate srt file
+    segments = split_transcript(cleaned_video_script)
+    srt_file_path = write_subtitle_file(save_path, segments)
 
     # TODO add the shell commands for ffmpeg
 
