@@ -11,6 +11,7 @@ import re
 import os
 from image_scraper import search_prompts_and_save_imgs
 import moviepy as mp
+from scratchpad import assemble_clip
 
 
 def connect_to_db(db_name):
@@ -128,6 +129,9 @@ def main():
     pattern = r"\*\*\[.*?\]\*\*:?|\*\*.*?\*\*:?|\[.*?\]:?|\[.*?\]\:?"
     cleaned_video_script = re.sub(pattern, "", video_script)
 
+    # Also clean the quotes from the video script
+    cleaned_video_script = re.sub(r"\".*?\"", "", cleaned_video_script)
+
     print("Video Script cleaned:", cleaned_video_script)
 
     # Generate captions for the video script
@@ -183,6 +187,9 @@ def main():
         audio_length = audio.duration
 
     print("Audio Length:", audio_length)
+
+    # assemble clip
+    assemble_clip(save_path)
 
     # TODO add the shell commands for ffmpeg
 
