@@ -99,23 +99,6 @@ def assemble_clip(content_path):
     video = mp.concatenate_videoclips(final_clips, method="compose")
     video = mp.CompositeVideoClip([video, watermark])
 
-    generator = lambda txt: TextClip(
-        txt,
-        font="/usr/share/fonts/noto/NotoSans-Regular.ttf",
-        fontsize=24,
-        color="white",
-    )
-    subs = [
-        ((0, 4), "subs1"),
-        ((4, 9), "subs2"),
-        ((9, 12), "subs3"),
-        ((12, 16), "subs4"),
-    ]
-
-    subtitles = SubtitlesClip(subs, generator)
-
-    video = CompositeVideoClip([video, subtitles.with_position(("center", "bottom"))])
-
     video.write_videofile(
         video_path,
         codec="libx264",
@@ -125,5 +108,4 @@ def assemble_clip(content_path):
 
 
 # Example usage
-TextClip.list("font")
-assemble_clip('generated_content/"Inboard Brakes: Innovation or Costly? 🤔🔗"')
+assemble_clip('generated_content/Is Mercedes\' Brake Tech a Game-Changer? Discover More! 🚗✨ (Link in Bio)')
