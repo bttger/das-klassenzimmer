@@ -174,7 +174,7 @@ def main():
 
     # generate TTS for the video script
     audio_save_path = os.path.join(save_path, "audio.mp3")
-    get_speech(video_script, audio_save_path)
+    get_speech(cleaned_video_script, audio_save_path)
 
     # Extract the audio length of the audio file
     audio_length = 0
@@ -183,6 +183,8 @@ def main():
         audio_length = audio.duration
 
     print("Audio Length:", audio_length)
+
+    # TODO add the shell commands for ffmpeg
 
 
 if __name__ == "__main__":
