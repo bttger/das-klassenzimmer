@@ -31,7 +31,7 @@ def format_time(seconds):
     return formatted_time
 
 
-def generate_subtitle_file(directory, segments):
+def write_subtitle_file(directory, segments):
     subtitle_file = "subtitles.srt"
     text = ""
     for index, segment in enumerate(segments):
@@ -42,11 +42,12 @@ def generate_subtitle_file(directory, segments):
         text += f"{segment.text} \n"
         text += "\n"
 
-    f = open(f"{directory}/{subtitle_file}", "w")
+    path = f"{directory}/{subtitle_file}"
+    f = open(path, "w")
     f.write(text)
     f.close()
 
-    return subtitle_file
+    return path
 
 
 if __name__ == "__main__":
